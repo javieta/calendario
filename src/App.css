@@ -1,0 +1,16 @@
+.check-f{
+  background:#95a5a6;
+  border:1px solid black;
+}
+.check-s{
+  background:#34495e;
+  border:1px solid black;
+}
+.check-l{
+  background:#ecf0f1;
+  border:1px solid black;
+}
+.check-l-checked{
+  background:red;
+  border:1px solid black;
+}
