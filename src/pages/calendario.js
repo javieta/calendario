@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
-
-import days from '../json/calendario.json';
+import React, { Component } from 'react'
+import { Container, Row, Col, Accordion, Card, Button } from 'react-bootstrap'
+import { formatJson, monthsShare } from '../Utils.js'
 import Empleado from '../components/empleado'
 import Dia from '../components/dia'
+import Volver from '../components/volver'
 
 class Calendario extends Component {
   constructor(props){
     super(props)
-
     this.state = { 
       empleados:JSON.parse(localStorage.getItem('empleados')) || [],
-      date:days.datos
+      date: formatJson(),
+      meses:monthsShare()
     }
   }
 
@@ -20,61 +20,72 @@ class Calendario extends Component {
       if(empleado.name === val.name) empleado.days = val.days
     })
     this.setState({ empleados:this.state.empleados })
-    localStorage.setItem('empleados', JSON.stringify(this.state.empleados));
+    localStorage.setItem('empleados', JSON.stringify(this.state.empleados))
   } 
 
   render(){
     return(
-      <div>
-        <h4>Calendario de vacaciones</h4>
+      <Container fluid="md">
+        <Row className="justify-content-md-center mt-3">
+          <Col md="auto">
+            <h4>Calendario de empleados</h4>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            {
+              this.state.empleados.map((empleado, i)=>{
+                return(
+                  <Accordion key={i}>
+                    <Card>
+                      <Card.Header>
+                        <Accordion.Toggle as={Button} className="w-100" variant="link" eventKey="0">
 
-        <table>
+                          <Empleado empleado={empleado} />
 
-            <thead>
-              <tr>
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="0">
+                        <Card.Body>
 
-                <td>Empleados</td>
-                  {
-                    this.state.date.map((dia, i)=>{
-                      return(
-                        <td key={i}>
-                          {JSON.stringify(dia.fecha).substring(6, 8)}
-                        </td>
-                      )
-                    })
-                  }
+                          {
+                            empleado.days.map((mes, numMes)=>{
+                              return (
+                                <Accordion key={numMes}>
+                                  <Card>
+                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                                      {this.state.meses[numMes+1]}
+                                    </Accordion.Toggle>
+                                    <Accordion.Collapse eventKey="0">
+                                      <Card.Body>
+                                        {
+                                          mes.map((dia, x)=>{
+                                            return <Dia key={x} dia={dia} empleado={empleado} sendData={this.getData} />
+                                          }) 
+                                        } 
+                                      </Card.Body>
+                                    </Accordion.Collapse>
+                                  </Card>
+                                </Accordion>
+                              )
+                            })
+                          }
 
-              </tr>
-            </thead>
-
-            <tbody>
-              {
-                this.state.empleados.map((empleado, i)=>{
-                  return(
-
-                    <tr key={i}>
-                      <Empleado empleado={empleado} />
-                      {
-                        empleado.days.map((dia, y)=>{
-                          return(
-                            
-                              <Dia key={y} dia={dia} empleado={empleado} sendData={this.getData} />
-                            
-                          )
-                        })
-                      }
-                    </tr>
-
-                  )
-                })
-              }
-            </tbody>
-
-        </table>
-
-        <Link to='/' className="button is-primary">Volver</Link>
-
-      </div>
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+                )
+              })
+            }
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center mt-5">
+          <Col md="auto">
+            <Volver />
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }

@@ -1,16 +1,17 @@
 .check-f{
-  background:#95a5a6;
-  border:1px solid black;
+  background:#3498db;
+  border:1px solid #2980b9;
 }
 .check-s{
-  background:#34495e;
-  border:1px solid black;
+  background:#e74c3c;
+  border:1px solid #c0392b;
+  color:#ecf0f1;
 }
 .check-l{
   background:#ecf0f1;
-  border:1px solid black;
+  border:1px solid #bdc3c7;
 }
 .check-l-checked{
-  background:red;
-  border:1px solid black;
+  background:#1abc9c;
+  border:1px solid #16a085;
 }

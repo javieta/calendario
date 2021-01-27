@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 
 class Empleado extends Component {
   
   render(){
     return(
-      <td>{ this.props.empleado.name }  { this.props.empleado.gastados }/22</td>
+      <div>
+	      <div className="float-left">Empleado: { this.props.empleado.name }</div>
+	      <div className="float-right">Días de vacaciones: { this.props.empleado.gastados }/22</div>
+      </div>
     )
   }
 }
